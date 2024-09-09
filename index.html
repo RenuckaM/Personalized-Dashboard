@@ -1,0 +1,365 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+<body class="bg-gray-900 text-white font-poppins">
+    <div class="flex h-screen overflow-hidden">
+        <nav class="admin-navbar">
+            <div class="navbar-header">
+                <img src="https://w7.pngwing.com/pngs/429/434/png-transparent-computer-icons-icon-design-business-administration-admin-icon-hand-monochrome-silhouette-thumbnail.png" alt="Logo" class="navbar-logo">
+                <h1 class="navbar-title">Admin Panel</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li class="menu-item active">
+                    <a href="#" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" data-page="messages">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" data-page="analytics">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" data-page="files">
+                        <i class="fas fa-folder"></i>
+                        <span>Files</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" data-page="users">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-oxford-blue-900">
+            <header class="bg-oxford-blue-800 p-4 flex justify-between items-center sticky top-0 z-10 shadow-md">
+                <h2 id="pageTitle" class="text-3xl font-bold">Dashboard</h2>
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+    <i class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+    <input type="text" placeholder="Search" class="bg-gray-800 text-gray-200 text-sm rounded-md py-2 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+</div>
+
+
+                    <button id="notificationBtn" class="relative p-2 rounded-full hover:bg-gray-700 transition-colors duration-300">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    <div class="relative" id="profileMenuContainer">
+                        <button id="profileMenuBtn" class="flex items-center space-x-3 focus:outline-none">
+                            <img src="https://www.informalnewz.com/wp-content/uploads/2022/10/Jennifer-Winget.jpg" alt="Admin" class="rounded-full w-10 h-10">
+                            <div class="hidden md:block text-left">
+                                <p class="font-semibold">Admin</p>
+                                <p class="text-sm text-white-400">Renucka M</p>
+                            </div>
+                        </button>
+                        <div id="profileDropdown" class="dropdown-menu hidden">
+                            <a href="#" class="dropdown-item" data-page="settings">Settings</a>
+                            <a href="#" class="dropdown-item">Log out</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-6 space-y-8">
+                <div id="dashboardContent">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="stat-card bg-gradient-purple">
+                            <p class="text-gray-200 mb-1">Total Users</p>
+                            <p class="text-3xl font-bold">54,321 <i class="fas fa-user text-violet-300 text-sm ml-1"></i></p>
+                        </div>
+                        <div class="stat-card bg-gradient-green">
+                            <p class="text-gray-200 mb-1">Revenue</p>
+                            <p class="text-3xl font-bold">$724,589 <i class="fas fa-dollar-sign text-light-green-300 text-sm ml-1"></i></p>
+                        </div>
+                        <div class="stat-card bg-gradient-blue">
+                            <p class="text-gray-200 mb-1">Active Projects</p>
+                            <p class="text-3xl font-bold">237 <i class="fas fa-project-diagram text-blue-300 text-sm ml-1"></i></p>
+                        </div>
+                        <div class="stat-card bg-gradient-yellow">
+                            <p class="text-gray-200 mb-1">Conversion Rate</p>
+                            <p class="text-3xl font-bold">8.7% <i class="fas fa-chart-line text-yellow-300 text-sm ml-1"></i></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="chart-card">
+                            <h3 class="text-xl font-semibold mb-4">User Growth</h3>
+                            <div id="userGrowthChart" class="h-80"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h3 class="text-xl font-semibold mb-4">Revenue Overview</h3>
+                            <div id="revenueOverviewChart" class="h-80"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center bg-gray-700 p-4 rounded-lg transition-all duration-300 hover:bg-gray-600">
+                                <img src="https://cdn4.sharechat.com/img_7170528894_435735_291ad095_1663762433294_sc.jpg?tenant=sc&referrer=pwa-sharechat-service&f=294_sc.jpg" alt="User" class="rounded-full w-12 h-12 mr-4">
+                                <div>
+                                    <p class="font-semibold">Sarah signed up</p>
+                                    <p class="text-sm text-gray-400">8 hours ago</p>
+                                </div>
+                            </li>
+                            <li class="flex items-center bg-gray-700 p-4 rounded-lg transition-all duration-300 hover:bg-gray-600">
+                                <img src="https://i.pinimg.com/736x/b5/f7/c1/b5f7c1601ce0a711a0c7e80227fcd688.jpg" alt="User" class="rounded-full w-12 h-12 mr-4">
+                                <div>
+                                    <p class="font-semibold">Janaki made a purchase</p>
+                                    <p class="text-sm text-gray-400">6 hours ago</p>
+                                </div>
+                            </li>
+                            <li class="flex items-center bg-gray-700 p-4 rounded-lg transition-all duration-300 hover:bg-gray-600">
+                                <img src="https://i.pinimg.com/736x/16/41/ce/1641ce8114ae25e27506bfeefa6775b4.jpg" alt="User" class="rounded-full w-12 h-12 mr-4">
+                                <div>
+                                    <p class="font-semibold">Eda submitted a support ticket</p>
+                                    <p class="text-sm text-gray-400">Yesterday</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="messagesContent" class="hidden">
+                    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-semibold mb-4">Inbox</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <img src="https://e7.pngegg.com/pngimages/933/68/png-clipart-jisoo-blackpink-as-if-it-s-your-last-yg-entertainment-singer-blackpink-lisa-jisoo-as-if.png" alt="User" class="rounded-full w-10 h-10 mr-4">
+                                    <div>
+                                        <p class="font-semibold">Jisoo</p>
+                                        <p class="text-sm text-gray-400">I'm having trouble with my account...</p>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-400">15m ago</span>
+                            </li>
+                            <li class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <img src="https://portalpopline.com.br/wp-content/uploads/2023/11/jin-bts-exercito-jpg.webp" alt="User" class="rounded-full w-10 h-10 mr-4">
+                                    <div>
+                                        <p class="font-semibold">Bob</p>
+                                        <p class="text-sm text-gray-400">Thanks for your quick response!</p>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-400">5h ago</span>
+                            </li>
+                            <li class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWEyI95pfiGcWv0s8diZZxmD2GWQpcQVR7rEUoEGoJ0mL-MxOaiYd2bXYWznszbVhqGbU&usqp=CAU" alt="User" class="rounded-full w-10 h-10 mr-4">
+                                    <div>
+                                        <p class="font-semibold">Rose</p>
+                                        <p class="text-sm text-gray-400">Hey, I have a question about...</p>
+                                    </div>
+                                </div>
+                                <span class="text-sm text-gray-400">1d ago</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="analyticsContent" class="hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-gray-800 rounded-xl p-6">
+                            <h3 class="text-xl font-semibold mb-4">Task Management</h3>
+                            <div id="trafficSourcesChart" class="h-80"></div>
+                        </div>
+                        <div class="bg-gray-800 rounded-xl p-6">
+                            <h3 class="text-xl font-semibold mb-4">User Engagement</h3>
+                            <div id="userEngagementChart" class="h-80"></div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-semibold mb-4">Top Performing Pages</h3>
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th class="text-left py-2">Page</th>
+                                    <th class="text-left py-2">Views</th>
+                                    <th class="text-left py-2">Avg. Time on Page</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2">Home</td>
+                                    <td class="py-2">55,678</td>
+                                    <td class="py-2">3m 34s</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">Products</td>
+                                    <td class="py-2">44,567</td>
+                                    <td class="py-2">10m 12s</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">About</td>
+                                    <td class="py-2">33,456</td>
+                                    <td class="py-2">2m 45s</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="filesContent" class="hidden">
+                    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-semibold mb-4">Recent Files</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-2xl mr-4"></i>
+                                    <div>
+                                        <p class="font-semibold">Annual Report 2024.pdf</p>
+                                        <p class="text-sm text-gray-400">5.2 MB</p>
+                                    </div>
+                                </div>
+                                <button class="text-blue-500 hover:text-blue-600"><i class="fas fa-download text-white"></i></button>
+                            </li>
+                            <li class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-excel text-green-500 text-2xl mr-4"></i>
+                                    <div>
+                                        <p class="font-semibold">Financial Projections.jpg</p>
+                                        <p class="text-sm text-gray-400">1.8 MB</p>
+                                    </div>
+                                </div>
+                                <button class="text-blue-500 hover:text-blue-600"><i class="fas fa-download text-white"></i></button>
+                            </li>
+                            <li class="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-image text-purple-500 text-2xl mr-4"></i>
+                                    <div>
+                                        <p class="font-semibold">Product Mockups.zip</p>
+                                        <p class="text-sm text-gray-400">127.3 MB</p>
+                                    </div>
+                                </div>
+                                <button class="text-blue-500 hover:text-blue-600"><i class="fas fa-download text-white"></i></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="usersContent" class="hidden">
+                    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-semibold mb-4">User Management</h3>
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th class="text-left py-2">Name</th>
+                                    <th class="text-left py-2">Email</th>
+                                    <th class="text-left py-2">Role</th>
+                                    <th class="text-left py-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="py-2">John</td>
+                                    <td class="py-2">john@example.com</td>
+                                    <td class="py-2">Admin</td>
+                                    <td class="py-2">
+                                        <button class="text-blue-500 hover:text-blue-600 mr-2"><i class="fas fa-edit text-white"></i></button>
+                                        <button class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">Jane</td>
+                                    <td class="py-2">jane@example.com</td>
+                                    <td class="py-2">Editor</td>
+                                    <td class="py-2">
+                                        <button class="text-blue-500 hover:text-blue-600 mr-2"><i class="fas fa-edit text-white"></i></button>
+                                        <button class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">Taylor</td>
+                                    <td class="py-2">taylor@example.com</td>
+                                    <td class="py-2">User</td>
+                                    <td class="py-2">
+                                        <button class="text-blue-500 hover:text-blue-600 mr-2"><i class="fas fa-edit text-white"></i></button>
+                                        <button class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="settingsContent" class="hidden">
+                    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-semibold mb-4">Account Settings</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label for="username" class="block mb-2">Username</label>
+                                <input type="text" id="username" class="w-full bg-gray-700 rounded px-3 py-2" value="admin">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block mb-2">Email</label>
+                                <input type="email" id="email" class="w-full bg-gray-700 rounded px-3 py-2" value="admin@example.com">
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="block mb-2">New Password</label>
+                                <input type="password" id="password" class="w-full bg-gray-700 rounded px-3 py-2">
+                            </div>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save Changes</button>
+                        </form>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-semibold mb-4">Notification Preferences</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span>Email Notifications</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>Push Notifications</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>SMS Notifications</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
